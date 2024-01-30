@@ -24,7 +24,7 @@ class CustomerProfile extends Model {
         'ship_postcode',
         'ship_country',
         'ship_phone',
-        'user_id ',
+        'user_id'
     ];
 
     public function user() {

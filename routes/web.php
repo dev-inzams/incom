@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\TokenAuthenticate;
+use App\Models\CustomerProfile;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
@@ -20,7 +22,7 @@ use App\Http\Controllers\CategoryController;
 */
 
 // barnd list
-Route::post('/brandlist', [BrandController::class, 'BrandList']);
+Route::post('/brandlist', [BrandController::class, 'BrandList'])->middleware(TokenAuthenticate::class);
 
 // category list
 Route::post('/categorylist', [CategoryController::class, 'CategoryList']);
@@ -50,3 +52,13 @@ Route::post('/user-login', [UserController::class, 'userLogin']);
 Route::post('/user-login-verify', [UserController::class, 'userLoginVerify']);
 
 Route::get('/logout', [UserController::class, 'userLogout']);
+
+
+// product list details
+
+
+
+// group route in middleware TokenAuthenticate
+Route::middleware(TokenAuthenticate::class)->group(function () {
+    Route::post('/user-create-profile',[ProfileController::class, 'createProfile']);
+});
