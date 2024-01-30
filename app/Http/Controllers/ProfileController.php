@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller {
     // create profile
-    public function createProfile(Request $request) {
+    public function createOrInsertProfile(Request $request) {
         try{
             $user_id = $request->header('id');
             $cus_name = $request->input('cus_name');
@@ -28,27 +28,41 @@ class ProfileController extends Controller {
             $ship_country = $request->input('ship_country');
             $ship_phone = $request->input('ship_phone');
 
-        CustomerProfile::create([
-            'user_id' => $user_id,
-            'cus_name' => $cus_name,
-            'cus_add' => $cus_add,
-            'cus_city' => $cus_city,
-            'cus_state' => $cus_state,
-            'cus_postcode' => $cus_postcode,
-            'cus_country' => $cus_country,
-            'cus_phone' => $cus_phone,
-            'cus_fax' => $cus_fax,
+        CustomerProfile::updateOrInsert(
+            ['user_id' => $user_id],
 
-            'ship_name' => $ship_name,
-            'ship_add' => $ship_add,
-            'ship_city' => $ship_city,
-            'ship_state' => $ship_state,
-            'ship_postcode' => $ship_postcode,
-            'ship_country' => $ship_country,
-            'ship_phone' => $ship_phone
+            [
+                'cus_name' => $cus_name,
+                'cus_add' => $cus_add,
+                'cus_city' => $cus_city,
+                'cus_state' => $cus_state,
+                'cus_postcode' => $cus_postcode,
+                'cus_country' => $cus_country,
+                'cus_phone' => $cus_phone,
+                'cus_fax' => $cus_fax,
 
-        ]);
-        return ResponseHelper::Out('success', 'Profile created successfully', 200);
+                'ship_name' => $ship_name,
+                'ship_add' => $ship_add,
+                'ship_city' => $ship_city,
+                'ship_state' => $ship_state,
+                'ship_postcode' => $ship_postcode,
+                'ship_country' => $ship_country,
+                'ship_phone' => $ship_phone
+            ]
+
+        );
+        return ResponseHelper::Out('success', 'Profile created successfully done', 200);
+        }catch(\Exception $e){
+            return ResponseHelper::Out('error', $e->getMessage(), 200);
+        }
+    }
+
+    // read profile
+    public function readProfile(Request $request) {
+        try{
+            $user_id = $request->header('id');
+            $data = CustomerProfile::where('user_id', $user_id)->with('user')->first();
+            return ResponseHelper::Out('success', $data, 200);
         }catch(\Exception $e){
             return ResponseHelper::Out('error', $e->getMessage(), 200);
         }

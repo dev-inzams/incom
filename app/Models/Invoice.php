@@ -18,6 +18,6 @@ class Invoice extends Model {
         'val_id',
         'delivery_status',
         'payment_status',
-        'user_id ',
+        'user_id'
     ];
 }

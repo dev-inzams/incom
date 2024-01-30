@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('ship_details');
 
             $table->string('tran_id');
-            $table->string('val_id');
+            $table->string('val_id')->default('0');
             $table->enum('delivery_status', ['pending', 'processing', 'delivered', 'cancelled']);
             $table->string('payment_status');
 

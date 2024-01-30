@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\PolicyController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
-use App\Http\Middleware\TokenAuthenticate;
 use App\Models\CustomerProfile;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\PolicyController;
+use App\Http\Middleware\TokenAuthenticate;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -60,5 +61,26 @@ Route::get('/logout', [UserController::class, 'userLogout']);
 
 // group route in middleware TokenAuthenticate
 Route::middleware(TokenAuthenticate::class)->group(function () {
-    Route::post('/user-create-profile',[ProfileController::class, 'createProfile']);
+    Route::post('/user-createOrInsert-profile',[ProfileController::class, 'createOrInsertProfile']);
+    Route::post('/user-read-profile', [ProfileController::class, 'readProfile']);
+
+    // product review
+    Route::post('user-createOrupdate-review', [ProductController::class, 'CreateOrupdateReview']);
+
+    // wish list
+    Route::post('/user-get-wish-list', [ProductController::class, 'getWishList']);
+    Route::post('/user-add-to-wish-list', [ProductController::class, 'addToWishList']);
+    Route::post('/user-remove-from-wish-list', [ProductController::class, 'removeFromWishList']);
+
+    // product cart
+    Route::post('/user-get-cart', [ProductController::class, 'getCart']);
+    Route::post('/user-add-to-cart', [ProductController::class, 'addToCart']);
+    Route::post('/user-remove-from-cart', [ProductController::class, 'removeFromCart']);
+
+
+    // invoices list
+    Route::post('/user-get-invoices', [InvoiceController::class, 'invoicesList']);
+    Route::post('/user-create-invoice', [InvoiceController::class, 'CreateInvoice']);
+    Route::post('/invoice-product-list', [InvoiceController::class, 'invoiceProductList']);
+
 });
