@@ -79,8 +79,15 @@ Route::middleware(TokenAuthenticate::class)->group(function () {
 
 
     // invoices list
-    Route::post('/user-get-invoices', [InvoiceController::class, 'invoicesList']);
+    Route::post('/user-get-invoices', [InvoiceController::class, 'GetInvoiceList']);
+    Route::post('/user-invoiceProduct-list', [InvoiceController::class, 'GetInvoiceProductList']);
     Route::post('/user-create-invoice', [InvoiceController::class, 'CreateInvoice']);
     Route::post('/invoice-product-list', [InvoiceController::class, 'invoiceProductList']);
+
+
+    // payment
+    Route::post('/PaymentSuccess', [InvoiceController::class, 'PaymentSuccess']);
+    Route::post('/PaymentFail', [InvoiceController::class, 'PaymentFail']);
+    Route::post('/PaymentCancel', [InvoiceController::class, 'PaymentCancel']);
 
 });
